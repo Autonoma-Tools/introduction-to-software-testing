@@ -1,0 +1,5 @@
+{
+  "actual_result": "After OAuth approval, redirected to /login with error toast: 'Email already in use'",
+  "status": "Failed",
+  "notes": "Bug: System doesn't recognize this is the same user. Account merge logic not working."
+}

@@ -1,0 +1,38 @@
+Bug ID: BUG-AUTH-042
+Title: Google OAuth account merge fails for existing email addresses
+Priority: P0 (Blocks production release)
+Environment: Staging (v2.3.0-rc1)
+Browser: Chrome 120.0 (also reproduces in Safari 17.1)
+
+Steps to Reproduce:
+1. Create account manually with email: testuser@gmail.com, password: Test123!
+2. Log out
+3. Click "Sign in with Google"
+4. Authenticate with Google account: testuser@gmail.com
+5. Observe redirect behavior
+
+Expected Result:
+- User is redirected to /dashboard
+- Existing account is merged with Google OAuth
+- User can now log in with either password or Google
+
+Actual Result:
+- User is redirected back to /login
+- Error toast displays: "Email already in use"
+- No account merge occurs
+- User is stuck - cannot use Google auth or password auth
+
+Impact:
+- Blocks all existing users from using Google OAuth
+- Affects ~40% of user base (users who signed up via email)
+- Production blocker for v2.3.0 release
+
+Additional Context:
+- Database shows two user records with same email after reproduction
+- Console error: "Unique constraint violation on users.email"
+- Related test case: TC-AUTH-001 (steps 1-3)
+
+Attachments:
+- Screenshot: error-toast.png
+- Console logs: console-output.txt
+- Network HAR file: oauth-callback.har
