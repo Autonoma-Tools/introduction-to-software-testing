@@ -6,24 +6,24 @@ def test_successful_login(page: Page):
     # Navigate to login page
     page.goto("https://bank-demo-web-app.vercel.app/")
 
-    # Fill in credentials
-    page.get_by_label("Username").fill("testuser")
-    page.get_by_label("Password").fill("password123")
+    # Fill in credentials (the demo app's own login page lists these)
+    page.get_by_label("Email").fill("demo@autonoma.app")
+    page.get_by_label("Password").fill("autonoma123")
 
     # Click login button
     page.get_by_role("button", name="Sign in").click()
 
     # Verify successful login
-    expect(page.get_by_text("Welcome back")).to_be_visible()
-    expect(page).to_have_url("https://bank-demo-web-app.vercel.app/dashboard")
+    expect(page.get_by_text("Welcome Back")).to_be_visible()
+    expect(page).to_have_url("https://bank-demo-web-app.vercel.app/")
 
 @pytest.mark.smoke
 def test_login_validation(page: Page):
-    """Test login shows error for invalid credentials"""
+    """Test the form blocks submission when required fields are empty"""
     page.goto("https://bank-demo-web-app.vercel.app/")
 
-    # Try logging in without credentials
+    # Submit with empty fields
     page.get_by_role("button", name="Sign in").click()
 
-    # Verify error message appears
-    expect(page.get_by_text("Username is required")).to_be_visible()
+    # Native browser validation blocks the submit, so we never leave the login page
+    expect(page).to_have_url("https://bank-demo-web-app.vercel.app/login")
