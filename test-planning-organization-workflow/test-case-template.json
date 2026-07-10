@@ -1,0 +1,44 @@
+{
+  "id": "TC-AUTH-001",
+  "title": "New user account creation via Google OAuth",
+  "priority": "P0",
+  "prerequisites": [
+    "User is logged out",
+    "No existing account with test email exists",
+    "Google OAuth is enabled in environment config"
+  ],
+  "test_data": {
+    "google_account": "testuser@gmail.com",
+    "expected_user_id_format": "google_[hash]"
+  },
+  "steps": [
+    {
+      "step": 1,
+      "action": "Navigate to /login",
+      "expected": "Login page displays with 'Sign in with Google' button"
+    },
+    {
+      "step": 2,
+      "action": "Click 'Sign in with Google' button",
+      "expected": "Google OAuth consent screen opens in new window"
+    },
+    {
+      "step": 3,
+      "action": "Select testuser@gmail.com and approve permissions",
+      "expected": "Redirect to /dashboard with success message"
+    },
+    {
+      "step": 4,
+      "action": "Verify user profile shows Google avatar and email",
+      "expected": "Profile displays: testuser@gmail.com, Google avatar image"
+    },
+    {
+      "step": 5,
+      "action": "Check database for new user record",
+      "expected": "User record created with auth_provider='google'"
+    }
+  ],
+  "actual_result": "",
+  "status": "Not Executed",
+  "notes": ""
+}
